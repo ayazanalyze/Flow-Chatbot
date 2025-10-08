@@ -700,19 +700,7 @@ if st.session_state["messages"]:
             
             for rec in selected_recommendations:
                 st.success(rec)
-        else:
-            no_data_labels = {
-                "hi": "❌ इस जिले के लिए डेटा उपलब्ध नहीं है:",
-                "en": "❌ No data available for district:",
-                "te": "❌ ఈ జిల్లా కోసం డేటా అందుబాటులో లేదు:",
-                "ta": "❌ இந்த மாவட்டத்திற்கு தரவு இல்லை:",
-                "ur": "❌ اس ضلع کے لیے ڈیٹا دستیاب نہیں:",
-                "bn": "❌ এই জেলার জন্য ডেটা নেই:",
-                "mr": "❌ या जिल्ह्यासाठी डेटा उपलब्ध नाही:",
-                "gu": "❌ આ જિલ્લા માટે ડેટા ઉપલબ્ધ નથી:"
-            }
-            st.warning(no_data_labels[lang] + f" {msg['district']}")
-
+       
 # Top 3 Dashboard + Tips (Multilingual)
 area_status_labels = {
     "hi": "क्षेत्रीय स्थिति",
