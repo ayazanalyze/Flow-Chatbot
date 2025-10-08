@@ -91,7 +91,7 @@ def generate_ai_response(query):
         """
     
     try:
-        response = llm([HumanMessage(content=prompt)])
+        response = llm.invoke([HumanMessage(content=prompt)])
         return response.content
     except Exception as e:
         error_msg = "क्षमा करें, त्रुटि हुई।" if current_lang == "hi" else "Sorry, an error occurred."
