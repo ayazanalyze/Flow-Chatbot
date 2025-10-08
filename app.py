@@ -9,7 +9,7 @@ from langchain.schema import HumanMessage
 import difflib
 
 load_dotenv()
-groq_api_key = st.secrets("GROQ_API_KEY")
+groq_api_key = st.secrets["GROQ_API_KEY"]
 llm = ChatGroq(api_key=groq_api_key, model="llama-3.1-8b-instant")
 st.set_page_config(page_title="FlowBot - By Team ZenFlow", layout="wide")
 
