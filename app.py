@@ -35,14 +35,14 @@ premium_feature_dict = {
 
 # Language Configuration
 LANGUAGES = {
-    "hi": {"name": "हिंदी", "flag": "🇮🇳"},
-    "en": {"name": "English", "flag": "🇬🇧"},
-    "te": {"name": "తెలుగు", "flag": "🇮🇳"},
-    "ta": {"name": "தமிழ்", "flag": "🇮🇳"},
-    "ur": {"name": "اردو", "flag": "🇵🇰"},
-    "bn": {"name": "বাংলা", "flag": "🇧🇩"},
-    "mr": {"name": "मराठी", "flag": "🇮🇳"},
-    "gu": {"name": "ગુજરાતી", "flag": "🇮🇳"}
+    "hi": {"name": "हिंदी"},
+    "en": {"name": "English"},
+    "te": {"name": "తెలుగు"},
+    "ta": {"name": "தமிழ்"},
+    "ur": {"name": "اردو"},
+    "bn": {"name": "বাংলা"},
+    "mr": {"name": "मराठी"},
+    "gu": {"name": "ગુજરાતી"}
 }
 
 # Move Premium Features to Sidebar
@@ -67,14 +67,14 @@ lang = st.session_state.get("language", "hi")
 
 # Multilingual titles and descriptions
 TITLES = {
-    "hi": "🌾 किसान मित्र - भूजल सहायक",
-    "en": "🌾 Farmer's Friend – Groundwater Assistant", 
-    "te": "🌾 రైతు మిత్రుడు - భూగర్భ జల సహాయకుడు",
-    "ta": "🌾 விவசாயி நண்பர் - நிலத்தடி நீர் உதவியாளர்",
-    "ur": "🌾 کسان دوست - زیر زمین پانی کا مددگار",
-    "bn": "🌾 কৃষক বন্ধু - ভূগর্ভস্থ পানি সহায়ক",
-    "mr": "🌾 शेतकरी मित्र - भूजल सहायक",
-    "gu": "🌾 ખેડૂત મિત્ર - ભૂગર્ભજળ સહાયક"
+    "hi": "🌾 FlowBot - भूजल सहायक",
+    "en": "🌾 FlowBot – Groundwater Assistant", 
+    "te": "🌾 FlowBot - భూగర్భ జల సహాయకుడు",
+    "ta": "🌾 FlowBot - நிலத்தடி நீர் உதவியாளர்",
+    "ur": "🌾 کسان دوست - FlowBotر",
+    "bn": "🌾 FlowBot- ভূগর্ভস্থ পানি সহায়ক",
+    "mr": "🌾 FlowBot - भूजल सहायक",
+    "gu": "🌾 FlowBot - ભૂગર્ભજળ સહાયક"
 }
 
 DESCRIPTIONS = {
