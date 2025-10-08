@@ -9,7 +9,7 @@ from langchain.schema import HumanMessage
 import difflib
 
 load_dotenv()
-groq_api_key = os.getenv("GROQ_API_KEY")
+groq_api_key = st.secrets("GROQ_API_KEY")
 llm = ChatGroq(api_key=groq_api_key, model="llama-3.1-8b-instant")
 st.set_page_config(page_title="FlowBot - By Team ZenFlow", layout="wide")
 
@@ -421,6 +421,3 @@ for tip in tips:
 
 st.markdown("<small>INGRES Groundwater Assistant @ SIH 2025</small>", unsafe_allow_html=True)
 
-# Premium feature handling
-if selected_feature == "AI Crop Water Calculator":
-    st.warning("🚧 This feature is under development. Stay tuned!")
