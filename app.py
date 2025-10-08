@@ -35,14 +35,14 @@ premium_feature_dict = {
 
 # Language Configuration
 LANGUAGES = {
-    "hi": {"name": "हिंदी"},
-    "en": {"name": "English"},
-    "te": {"name": "తెలుగు"},
-    "ta": {"name": "தமிழ்"},
-    "ur": {"name": "اردو"},
-    "bn": {"name": "বাংলা"},
-    "mr": {"name": "मराठी"},
-    "gu": {"name": "ગુજરાતી"}
+    "hi": {"name": "हिंदी", "flag": "🇮🇳"},
+    "en": {"name": "English", "flag": "🇬🇧"},
+    "te": {"name": "తెలుగు", "flag": "🇮🇳"},
+    "ta": {"name": "தமிழ்", "flag": "🇮🇳"},
+    "ur": {"name": "اردو", "flag": "🇵🇰"},
+    "bn": {"name": "বাংলা", "flag": "🇧🇩"},
+    "mr": {"name": "मराठी", "flag": "🇮🇳"},
+    "gu": {"name": "ગુજરાતી", "flag": "🇮🇳"}
 }
 
 # Move Premium Features to Sidebar
