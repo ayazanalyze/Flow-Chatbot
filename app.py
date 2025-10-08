@@ -7,6 +7,7 @@ import os
 from langchain_groq import ChatGroq
 from langchain.schema import HumanMessage
 import difflib
+import re
 
 # Initialize session state FIRST
 if "messages" not in st.session_state:
@@ -343,6 +344,10 @@ if "user_query" in st.session_state and st.session_state["user_query"]:
             st.error(f"❌ ERROR in quick reply processing: {str(e)}")
 
 # Chat Display and Charts (Fixed to show for ALL languages)
+# Add these imports at the top of your file if not already present
+
+
+# Your corrected code:
 if st.session_state["messages"]:
     chat_labels = {
         "hi": "बातचीत", "en": "Chat", "te": "చాట్", "ta": "அரட்டை", 
@@ -378,21 +383,15 @@ if st.session_state["messages"]:
     )
     
     # Enhanced Charts - Fixed to show for ALL languages
-    # Check if district exists in msg dictionary, if not, try to extract from query or answer
     district_name = None
     
+    # Check if district exists in msg dictionary
     if "district" in msg and msg["district"]:
         district_name = msg["district"]
     else:
         # Fallback: Try to extract district name from the query or answer
-        # This handles cases where district info exists but wasn't properly stored
-        import re
-        
-        # Try to find district name in the answer first
         if msg.get('a'):
-            # Look for common patterns in the answer
             answer_text = msg['a'].lower()
-            # Extract potential district names (assuming they're mentioned in the answer)
             for index, row in df.iterrows():
                 if row['District'].lower() in answer_text:
                     district_name = row['District']
@@ -426,7 +425,6 @@ if st.session_state["messages"]:
         
         # If exact match fails, try partial matching
         if chartdf.empty:
-            # Try removing common suffixes/prefixes and partial matching
             clean_district = re.sub(r'\b(district|जिला|జిల్లా|மாவட்டம்|ضلع|জেলা|जिल्हा|જિલ્લો)\b', '', district_name.lower()).strip()
             chartdf = df[df['District'].str.lower().str.contains(clean_district, na=False)]
         
