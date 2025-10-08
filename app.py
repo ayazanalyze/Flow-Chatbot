@@ -377,8 +377,37 @@ if st.session_state["messages"]:
         unsafe_allow_html=True
     )
     
-    # Enhanced Charts - NOW SHOWS FOR ALL LANGUAGES
-    if msg["district"]:
+    # Enhanced Charts - Fixed to show for ALL languages
+    # Check if district exists in msg dictionary, if not, try to extract from query or answer
+    district_name = None
+    
+    if "district" in msg and msg["district"]:
+        district_name = msg["district"]
+    else:
+        # Fallback: Try to extract district name from the query or answer
+        # This handles cases where district info exists but wasn't properly stored
+        import re
+        
+        # Try to find district name in the answer first
+        if msg.get('a'):
+            # Look for common patterns in the answer
+            answer_text = msg['a'].lower()
+            # Extract potential district names (assuming they're mentioned in the answer)
+            for index, row in df.iterrows():
+                if row['District'].lower() in answer_text:
+                    district_name = row['District']
+                    break
+        
+        # If not found in answer, try the query
+        if not district_name and msg.get('q'):
+            query_text = msg['q'].lower()
+            for index, row in df.iterrows():
+                if row['District'].lower() in query_text:
+                    district_name = row['District']
+                    break
+    
+    # Show charts if we found a district name
+    if district_name:
         showing_data_labels = {
             "hi": "जिले की जानकारी दिखाई जा रही है:",
             "en": "Showing data for district:",
@@ -390,9 +419,17 @@ if st.session_state["messages"]:
             "gu": "જિલ્લાની માહિતી બતાવવામાં આવી રહી છે:"
         }
         
-        st.info("📊 " + showing_data_labels[lang] + f" {msg['district']}")
+        st.info("📊 " + showing_data_labels[lang] + f" {district_name}")
         
-        chartdf = df[df['District'].str.lower().str.contains(msg["district"].lower())]
+        # Use flexible matching for district names
+        chartdf = df[df['District'].str.lower().str.contains(district_name.lower(), na=False)]
+        
+        # If exact match fails, try partial matching
+        if chartdf.empty:
+            # Try removing common suffixes/prefixes and partial matching
+            clean_district = re.sub(r'\b(district|जिला|జిల్లా|மாவட்டம்|ضلع|জেলা|जिल्हा|જિલ્લો)\b', '', district_name.lower()).strip()
+            chartdf = df[df['District'].str.lower().str.contains(clean_district, na=False)]
+        
         if not chartdf.empty:
             row = chartdf.iloc[0]
             extraction = row["ExtractionVolume_ha_m"]
@@ -423,14 +460,14 @@ if st.session_state["messages"]:
             with col1:
                 # Water Usage Chart with multilingual title
                 usage_titles = {
-                    "hi": f"{msg['district']} का पानी उपयोग",
-                    "en": f"{msg['district']} Water Usage",
-                    "te": f"{msg['district']} నీటి వినియోగం",
-                    "ta": f"{msg['district']} நீர் பயன்பாடு",
-                    "ur": f"{msg['district']} پانی کا استعمال",
-                    "bn": f"{msg['district']} পানির ব্যবহার",
-                    "mr": f"{msg['district']} पाण्याचा वापर",
-                    "gu": f"{msg['district']} પાણીનો ઉપયોગ"
+                    "hi": f"{district_name} का पानी उपयोग",
+                    "en": f"{district_name} Water Usage",
+                    "te": f"{district_name} నీటి వినియోగం",
+                    "ta": f"{district_name} நீர் பயன்பாடு",
+                    "ur": f"{district_name} پانی کا استعمال",
+                    "bn": f"{district_name} পানির ব্যবহার",
+                    "mr": f"{district_name} पाण्याचा वापर",
+                    "gu": f"{district_name} પાણીનો ઉપયોગ"
                 }
                 
                 fig_gauge = px.pie(
@@ -594,6 +631,20 @@ if st.session_state["messages"]:
                         value=risk_level,
                         delta=f"{stage:.1f}% usage"
                     )
+        else:
+            # If no district data found, show a helpful message
+            no_data_labels = {
+                "hi": "इस जिले के लिए डेटा उपलब्ध नहीं है",
+                "en": "No data available for this district",
+                "te": "ఈ జిల్లాకు డేటా అందుబాటులో లేదు",
+                "ta": "இந்த மாவட்டத்திற்கான தரவு கிடைக்கவில்லை",
+                "ur": "اس ضلع کے لیے ڈیٹا دستیاب نہیں",
+                "bn": "এই জেলার জন্য তথ্য উপলব্ধ নয়",
+                "mr": "या जिल्ह्यासाठी डेटा उपलब्ध नाही",
+                "gu": "આ જિલ્લા માટે ડેટા ઉપલબ્ધ નથી"
+            }
+            st.warning("⚠️ " + no_data_labels[lang] + f": {district_name}")
+
             
             # Recommendations based on risk level (Multilingual)
             recommendations_labels = {
