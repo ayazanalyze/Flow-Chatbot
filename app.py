@@ -54,16 +54,47 @@ with st.sidebar:
 # Dashboard switch
 st.success("💡 Tip: Use the sidebar to navigate to the 'dashboard' for detailed analytics!")
 
-# Multi-Language Selection
-st.markdown("### 🌍 Select Language / भाषा चुनें")
-lang_cols = st.columns(len(LANGUAGES))
-for idx, (code, info) in enumerate(LANGUAGES.items()):
-    with lang_cols[idx]:
-        if st.button(f"{info['flag']} {info['name']}", key=f"lang_{code}", use_container_width=True):
-            st.session_state.language = code
-            st.rerun()
+# Multi-Language Selection - NEW DROPDOWN VERSION
+col1, col2 = st.columns([3, 1])
+
+with col1:
+    st.markdown("### 🌍 Select Language / भाषा चुनें")
+
+with col2:
+    # Create dropdown options using your existing LANGUAGES dict
+    language_options = {}
+    for code, info in LANGUAGES.items():
+        language_options[f"{info['flag']} {info['name']}"] = code
+    
+    # Get current selection for dropdown (with fallback)
+    current_lang = st.session_state.get("language", "hi")
+    current_display = None
+    for display, code in language_options.items():
+        if code == current_lang:
+            current_display = display
+            break
+    
+    # If current language not found, default to Hindi
+    if current_display is None:
+        current_display = list(language_options.keys())[0]
+        current_lang = "hi"
+    
+    selected_language = st.selectbox(
+        "🌐",
+        options=list(language_options.keys()),
+        index=list(language_options.keys()).index(current_display),
+        key="language_dropdown",
+        label_visibility="collapsed"
+    )
+    
+    # Update session state when selection changes
+    new_lang = language_options[selected_language]
+    if new_lang != st.session_state.get("language", "hi"):
+        st.session_state.language = new_lang
+        st.rerun()
 
 lang = st.session_state.get("language", "hi")
+
 
 # Multilingual titles and descriptions
 TITLES = {
