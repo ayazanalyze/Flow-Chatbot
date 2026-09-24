@@ -3,5 +3,5 @@ streamlit-mic-recorder
 pandas
 plotly
 python-dotenv
-langchain
+langchain==0.1.20
 langchain-groq
