@@ -20,7 +20,7 @@ if "language" not in st.session_state:
 load_dotenv()
 groq_api_key = st.secrets["GROQ_API_KEY"]
 
-llm = ChatGroq(api_key=groq_api_key, model="llama-3.1-8b-instant")
+llm = ChatGroq(api_key=groq_api_key, model="openai/gpt-oss-20b")
 st.set_page_config(page_title="FlowBot - By Team ZenFlow", layout="wide")
 
 df = pd.read_csv("cleaned_groundwater_data.csv")
